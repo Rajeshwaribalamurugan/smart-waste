@@ -1,56 +1,63 @@
-import React, { useEffect, useRef } from "react";
-import { View, Text, Image, Animated } from "react-native";
-import SplashStyles from "../styles/SplashStyles";
+import React, { useEffect } from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
 
 export default function SplashScreen({ navigation }) {
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
   useEffect(() => {
-
-    // Fade animation
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 2000,
-      useNativeDriver: true,
-    }).start();
-
-    // Navigate after 3 sec
     setTimeout(() => {
       navigation.replace("Role");
-    }, 3000);
-
+    }, 2500);
   }, []);
 
   return (
+    <View style={styles.container}>
+      <View style={styles.logoCircle}>
+        <Image
+          source={require("../assets/recycle.png")}
+          style={styles.logo}
+        />
+      </View>
 
-    <View style={SplashStyles.container}>
-
-      <Animated.View style={{ opacity: fadeAnim, alignItems: "center" }}>
-
-        <View style={SplashStyles.logoCircle}>
-          <Image
-            source={require("../assets/recycle.png")}
-            style={SplashStyles.logoImage}
-          />
-        </View>
-
-        <Text style={SplashStyles.title}>
-          EcoWaste
-        </Text>
-
-        <Text style={SplashStyles.subtitle}>
-          Smart Waste Management
-        </Text>
-
-        <Text style={SplashStyles.tagline}>
-          🌱 Building a greener tomorrow
-        </Text>
-
-      </Animated.View>
-
+      <Text style={styles.title}>EcoWaste</Text>
+      <Text style={styles.subtitle}>Smart Waste Management</Text>
+      <Text style={styles.tagline}>Building a greener tomorrow</Text>
     </View>
-
   );
-
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#2e7d32",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logoCircle: {
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
+  },
+  logo: {
+    width: 70,
+    height: 70,
+    resizeMode: "contain",
+  },
+  title: {
+    fontSize: 34,
+    color: "#fff",
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#e8f5e9",
+    marginBottom: 20,
+  },
+  tagline: {
+    fontSize: 14,
+    color: "#c8e6c9",
+  },
+});
