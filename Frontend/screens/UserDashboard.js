@@ -8,7 +8,20 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function UserDashboard() {
+export default function UserDashboard({ navigation }) {
+
+  const openAlerts = () => {
+    navigation.navigate("Alerts");
+  };
+
+  const openRequestPickup = () => {
+    navigation.navigate("RequestPickup");
+  };
+
+  const openProfile = () => {
+    navigation.navigate("Profile");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={styles.container}>
@@ -18,12 +31,16 @@ export default function UserDashboard() {
           <Text style={styles.hello}>Hello,</Text>
           <Text style={styles.name}>John Doe</Text>
 
-          <View style={styles.notification}>
+          {/* 🔔 Notification Bell */}
+          <TouchableOpacity
+            style={styles.notification}
+            onPress={openAlerts}
+          >
             <Ionicons name="notifications-outline" size={22} color="#fff" />
             <View style={styles.badge}>
               <Text style={styles.badgeText}>3</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Score Card */}
@@ -44,29 +61,63 @@ export default function UserDashboard() {
         <Text style={styles.sectionTitle}>Quick Actions</Text>
 
         <View style={styles.quickContainer}>
-          <TouchableOpacity style={styles.primaryCard}>
+
+          {/* Request Pickup */}
+          <TouchableOpacity
+            style={styles.primaryCard}
+            onPress={openRequestPickup}
+          >
             <Ionicons name="trash-outline" size={24} color="#fff" />
             <Text style={styles.primaryText}>Request Pickup</Text>
             <Text style={styles.primarySub}>Schedule collection</Text>
           </TouchableOpacity>
 
+          {/* AI Guide */}
           <TouchableOpacity style={styles.secondaryCard}>
             <Ionicons name="camera-outline" size={24} color="#2e7d32" />
             <Text style={styles.secondaryText}>AI Guide</Text>
             <Text style={styles.secondarySub}>Identify waste type</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.secondaryCard}>
-            <Ionicons name="location-outline" size={24} color="#2e7d32" />
-            <Text style={styles.secondaryText}>Track Pickup</Text>
-            <Text style={styles.secondarySub}>Live location</Text>
+      {/* Track Pickup */}
+<TouchableOpacity
+  style={styles.secondaryCard}
+  onPress={() => navigation.navigate("TrackPickup")}
+>
+  <Ionicons name="location-outline" size={24} color="#2e7d32" />
+  <Text style={styles.secondaryText}>Track Pickup</Text>
+  <Text style={styles.secondarySub}>Live location</Text>
+</TouchableOpacity>
+
+<TouchableOpacity
+  style={styles.secondaryCard}
+  onPress={() => navigation.navigate("Rewards")}
+>
+  <Ionicons name="gift-outline" size={24} color="#2e7d32" />
+  <Text style={styles.secondaryText}>Rewards</Text>
+  <Text style={styles.secondarySub}>View your points</Text>
+</TouchableOpacity>
+
+          {/* Alerts Card */}
+          <TouchableOpacity
+            style={styles.secondaryCard}
+            onPress={openAlerts}
+          >
+            <Ionicons name="notifications-outline" size={24} color="#2e7d32" />
+            <Text style={styles.secondaryText}>Alerts</Text>
+            <Text style={styles.secondarySub}>View notifications</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.secondaryCard}>
-            <Ionicons name="gift-outline" size={24} color="#2e7d32" />
-            <Text style={styles.secondaryText}>My Rewards</Text>
-            <Text style={styles.secondarySub}>2,450 points</Text>
+          {/* Profile Card */}
+          <TouchableOpacity
+            style={styles.secondaryCard}
+            onPress={openProfile}
+          >
+            <Ionicons name="person-outline" size={24} color="#2e7d32" />
+            <Text style={styles.secondaryText}>Profile</Text>
+            <Text style={styles.secondarySub}>View account details</Text>
           </TouchableOpacity>
+
         </View>
 
         {/* Recent Pickups */}
@@ -99,6 +150,8 @@ export default function UserDashboard() {
           </View>
         </View>
 
+        <View style={{ height: 30 }} />
+
       </ScrollView>
     </View>
   );
@@ -112,10 +165,12 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 50,
   },
+
   hello: { color: "#c8e6c9" },
   name: { color: "#fff", fontSize: 22, fontWeight: "bold" },
 
   notification: { position: "absolute", right: 20, top: 55 },
+
   badge: {
     position: "absolute",
     right: -6,
@@ -124,6 +179,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 5,
   },
+
   badgeText: { color: "#fff", fontSize: 10 },
 
   scoreCard: {
@@ -133,6 +189,7 @@ const styles = StyleSheet.create({
     padding: 20,
     elevation: 3,
   },
+
   scoreTitle: { color: "#777" },
   scoreNumber: { fontSize: 28, fontWeight: "bold", color: "#2e7d32" },
   outOf: { fontSize: 16, color: "#777" },
@@ -143,6 +200,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 10,
   },
+
   progressFill: {
     height: 8,
     width: "87%",
@@ -173,6 +231,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 15,
   },
+
   primaryText: { color: "#fff", fontWeight: "bold", marginTop: 10 },
   primarySub: { color: "#c8e6c9", fontSize: 12 },
 
@@ -184,6 +243,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     elevation: 2,
   },
+
   secondaryText: { fontWeight: "bold", marginTop: 10 },
   secondarySub: { fontSize: 12, color: "#777" },
 
@@ -193,6 +253,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     alignItems: "center",
   },
+
   viewAll: { color: "#2e7d32" },
 
   pickupCard: {
@@ -205,6 +266,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 2,
   },
+
   pickupTitle: { fontWeight: "bold" },
   pickupSub: { color: "#777", fontSize: 12 },
   date: { fontSize: 12 },

@@ -17,28 +17,33 @@ export default function LoginScreen({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
- const handleAuth = () => {
-  if (!email || !password || (isSignup && !name)) {
-    Alert.alert("Error", "Please fill all fields");
-    return;
-  }
-
-  if (isSignup) {
-    Alert.alert("Success", `${role} account created successfully!`);
-  } else {
-    // Navigate based on role
-    if (role === "Driver") {
-      navigation.replace("DriverDashboard");
-    } else {
-      navigation.replace("UserDashboard");
+  const handleAuth = () => {
+    if (!email || !password || (isSignup && !name)) {
+      Alert.alert("Error", "Please fill all fields");
+      return;
     }
-  }
 
-  // Clear fields
-  setName("");
-  setEmail("");
-  setPassword("");
-};
+    if (isSignup) {
+      Alert.alert("Success", `${role} account created successfully!`);
+    } else {
+
+      // 🔥 Correct navigation for all roles
+      if (role === "Driver") {
+        navigation.replace("DriverDashboard");
+
+      } else if (role === "Admin") {
+        navigation.replace("AdminDashboard");
+
+      } else {
+        navigation.replace("UserDashboard");
+      }
+    }
+
+    // Clear fields
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <View style={styles.container}>
