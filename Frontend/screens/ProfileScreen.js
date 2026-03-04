@@ -8,22 +8,53 @@ import {
   Alert
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { CommonActions } from "@react-navigation/native";
+
+const handleLogout = () => {
+  Alert.alert(
+    "Logout",
+    "Are you sure you want to logout?",
+    [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Logout",
+        onPress: () => {
+          navigation.getParent()?.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "Role" }],
+            })
+          );
+        },
+      },
+    ]
+  );
+};
 
 export default function ProfileScreen({ navigation }) {
 
-  const handleLogout = () => {
-    Alert.alert(
-      "Logout",
-      "Are you sure you want to logout?",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Logout",
-          onPress: () => navigation.replace("Role")
-        }
-      ]
-    );
-  };
+ 
+
+const handleLogout = () => {
+  Alert.alert(
+    "Logout",
+    "Are you sure you want to logout?",
+    [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Logout",
+        onPress: () => {
+          navigation.getParent()?.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "Role" }],
+            })
+          );
+        },
+      },
+    ]
+  );
+};
 
   return (
     <ScrollView style={styles.container}>
