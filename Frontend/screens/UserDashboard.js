@@ -8,7 +8,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function UserDashboard({ navigation }) {
+export default function UserDashboard({ navigation,route }) {
+
+  const { user } = route.params || {};
+  const userName = user?.name || user?.email?.split("@")[0] || "User";
 
   const openAlerts = () => {
     navigation.navigate("Alerts");
@@ -29,7 +32,7 @@ export default function UserDashboard({ navigation }) {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.hello}>Hello,</Text>
-          <Text style={styles.name}>John Doe</Text>
+          <Text style={styles.name}>{userName}</Text>
 
           {/* 🔔 Notification Bell */}
           <TouchableOpacity

@@ -3,12 +3,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import DriverDashboard from "../screens/DriverDashboard";
-import DriverMapScreen from "../screens/DriverMapScreen";
+import DriverMapScreen from "../screens/DriverRouteScreen";
 import DriverProfileScreen from "../screens/DriverProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
-export default function DriverTabs() {
+export default function DriverTabs({ route }) {
+
+  const { user } = route.params || {};
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -31,9 +34,23 @@ export default function DriverTabs() {
         },
       })}
     >
-      <Tab.Screen name="Jobs" component={DriverDashboard} />
-      <Tab.Screen name="Map" component={DriverMapScreen} />
-      <Tab.Screen name="Profile" component={DriverProfileScreen} />
+      <Tab.Screen
+        name="Jobs"
+        component={DriverDashboard}
+        initialParams={{ user }}
+      />
+
+      <Tab.Screen
+        name="Map"
+        component={DriverMapScreen}
+        initialParams={{ user }}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={DriverProfileScreen}
+        initialParams={{ user }}
+      />
     </Tab.Navigator>
   );
 }

@@ -7,14 +7,17 @@ import {
   StyleSheet
 } from "react-native";
 
-export default function UserHomeScreen() {
+export default function UserHomeScreen({route}) {
+  const { user } = route.params || {};
+  const userName = user?.name || user?.email?.split("@")[0] || "User";
+
   return (
     <ScrollView style={styles.container}>
 
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.hello}>Hello,</Text>
-        <Text style={styles.name}>John Doe</Text>
+        <Text style={styles.name}>{userName}</Text>
       </View>
 
       {/* Score Card */}

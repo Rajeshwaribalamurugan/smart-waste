@@ -2,7 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function DriverProfileScreen({ navigation }) {
+export default function DriverProfileScreen({ navigation,route }) {
+  const { user } = route.params || {};
+  const driverName = user?.name || user?.email?.split("@")[0] || "Driver";
+  const email = user?.email || "Not provided";
   return (
     <ScrollView style={styles.container}>
       
@@ -10,7 +13,7 @@ export default function DriverProfileScreen({ navigation }) {
       <View style={styles.headerCard}>
         <Ionicons name="person-circle-outline" size={90} color="#fff" />
 
-        <Text style={styles.driverName}>Mike Johnson</Text>
+        <Text style={styles.driverName}>{driverName}</Text>
         <Text style={styles.driverId}>Driver ID: DR-2345</Text>
 
         <View style={styles.ratingRow}>
@@ -70,7 +73,7 @@ export default function DriverProfileScreen({ navigation }) {
 
       <View style={styles.contactBox}>
         <Ionicons name="mail-outline" size={24} color="#2e7d32" />
-        <Text style={styles.contactText}>mike.johnson@ecowaste.com</Text>
+        <Text style={styles.contactText}>{email}</Text>
       </View>
 
       <View style={styles.contactBox}>

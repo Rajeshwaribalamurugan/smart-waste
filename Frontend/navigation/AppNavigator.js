@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import AdminTabs from "./AdminTabs";
 import UserTabs from "./UserTabs";
 import DriverTabs from "./DriverTabs";
 
@@ -11,9 +12,10 @@ import SplashScreen from "../screens/SplashScreen";
 import RoleScreen from "../screens/RoleScreen";
 
 import DriverDashboard from "../screens/DriverDashboard";
-import DriverMapScreen from "../screens/DriverMapScreen";
+import DriverRouteScreen from "../screens/DriverRouteScreen";
 import DriverProfileScreen from "../screens/DriverProfileScreen";
 
+import AdminAnalytics from "../screens/AdminAnalytics";
 import ProfileScreen from "../screens/ProfileScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import RequestPickupScreen from "../screens/RequestPickupScreen";
@@ -42,10 +44,11 @@ export default function AppNavigator() {
         <Stack.Screen name="Rewards" component={RewardsScreen} />
         
         <Stack.Screen name="DriverDashboard" component={DriverDashboard} />
-        <Stack.Screen name="DriverMap" component={DriverMapScreen} />
+       
         <Stack.Screen name="DriverProfile" component={DriverProfileScreen} />
-        
-        <Stack.Screen name="AdminDashboard" component={AdminDashboardScreen} />
+        <Stack.Screen name="Analytics" component={AdminAnalytics} />
+        <Stack.Screen name="DriverRoute" component={DriverRouteScreen} />
+        <Stack.Screen name="AdminTabs" component={AdminTabs} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -3,9 +3,11 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-nati
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import DriverProfileScreen from "./DriverProfileScreen"; // <-- Profile screen
-import DriverMapScreen from "./DriverMapScreen"; // <-- Map screen
+import DriverRouteScreen from "./DriverRouteScreen";
 
-export default function DriverDashboard({ navigation }) {
+export default function DriverDashboard({ route }) {
+  const { user } = route.params || {};
+  const driverName = user?.name || user?.email?.split("@")[0] || "Driver";
   
   const [activeSection, setActiveSection] = useState("jobs"); 
   // jobs | map | profile
@@ -19,7 +21,7 @@ export default function DriverDashboard({ navigation }) {
 
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.name}>Hello, Mike 👋</Text>
+            <Text style={styles.name}>Hello, {driverName}👋</Text>
             <Text style={styles.sub}>You have 3 pickups today</Text>
           </View>
 
@@ -90,22 +92,7 @@ export default function DriverDashboard({ navigation }) {
       {activeSection === "profile" && <DriverProfileScreen />}
 
       {/* ---------- BOTTOM TABS ---------- */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity onPress={() => setActiveSection("jobs")} style={styles.navItem}>
-          <Ionicons name="briefcase-outline" size={24} color={activeSection === "jobs" ? "#2e7d32" : "#777"} />
-          <Text style={[styles.navText, { color: activeSection === "jobs" ? "#2e7d32" : "#777" }]}>Jobs</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => setActiveSection("map")} style={styles.navItem}>
-          <Ionicons name="map-outline" size={24} color={activeSection === "map" ? "#2e7d32" : "#777"} />
-          <Text style={[styles.navText, { color: activeSection === "map" ? "#2e7d32" : "#777" }]}>Map</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => setActiveSection("profile")} style={styles.navItem}>
-          <Ionicons name="person-outline" size={24} color={activeSection === "profile" ? "#2e7d32" : "#777"} />
-          <Text style={[styles.navText, { color: activeSection === "profile" ? "#2e7d32" : "#777" }]}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+      
 
     </View>
   );

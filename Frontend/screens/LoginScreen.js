@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 export default function LoginScreen({ route, navigation }) {
-  const { role } = route.params;
+  const { role } = route.params || {};
 
   const [isSignup, setIsSignup] = useState(false);
   const [name, setName] = useState("");
@@ -23,10 +23,16 @@ export default function LoginScreen({ route, navigation }) {
     return;
   }
 
+  // create user object
+  const user = {
+    name: name,
+    email: email,
+  };
+
   if (isSignup) {
     Alert.alert("Success", `${role} account created successfully!`);
 
-    // 🔥 After signup → switch to login screen
+    // switch to login
     setIsSignup(false);
     setName("");
     setEmail("");
@@ -36,11 +42,11 @@ export default function LoginScreen({ route, navigation }) {
 
   // LOGIN
   if (role === "Driver") {
-    navigation.replace("DriverDashboard");
+    navigation.navigate("DriverTabs", { user });
   } else if (role === "Admin") {
-    navigation.replace("AdminDashboard");
+    navigation.navigate("AdminTabs", { user });
   } else {
-    navigation.replace("UserTabs"); // 👈 changed here
+    navigation.navigate("UserTabs", { user }); // ✅ pass user here
   }
 
   setName("");

@@ -9,7 +9,9 @@ import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
-export default function UserTabs() {
+export default function UserTabs({ route }) {
+  const { user } = route.params || {};
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -22,24 +24,39 @@ export default function UserTabs() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === "Home") {
-            iconName = "home-outline";
-          } else if (route.name === "Rewards") {
-            iconName = "gift-outline";
-          } else if (route.name === "Alerts") {
-            iconName = "notifications-outline";
-          } else if (route.name === "Profile") {
-            iconName = "person-outline";
-          }
+          if (route.name === "Home") iconName = "home-outline";
+          else if (route.name === "Rewards") iconName = "gift-outline";
+          else if (route.name === "Alerts") iconName = "notifications-outline";
+          else if (route.name === "Profile") iconName = "person-outline";
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
-      <Tab.Screen name="Home" component={UserDashboard} />
-      <Tab.Screen name="Rewards" component={RewardsScreen} />
-      <Tab.Screen name="Alerts" component={NotificationsScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      {/* PASS USER DATA */}
+      <Tab.Screen
+        name="Home"
+        component={UserDashboard}
+        initialParams={{ user }}
+      />
+
+      <Tab.Screen
+        name="Rewards"
+        component={RewardsScreen}
+        initialParams={{ user }}
+      />
+
+      <Tab.Screen
+        name="Alerts"
+        component={NotificationsScreen}
+        initialParams={{ user }}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        initialParams={{ user }}
+      />
     </Tab.Navigator>
   );
 }

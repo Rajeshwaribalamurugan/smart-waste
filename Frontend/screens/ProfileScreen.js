@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   View,
@@ -10,7 +11,11 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { CommonActions } from "@react-navigation/native";
 
-const handleLogout = () => {
+export default function ProfileScreen({ navigation, route }) {
+  const { user } = route.params || {};
+  const userName = user?.name || user?.email?.split("@")[0] || "User";
+  
+  const handleLogout = () => {
   Alert.alert(
     "Logout",
     "Are you sure you want to logout?",
@@ -19,7 +24,7 @@ const handleLogout = () => {
       {
         text: "Logout",
         onPress: () => {
-          navigation.getParent()?.dispatch(
+          navigation.dispatch(
             CommonActions.reset({
               index: 0,
               routes: [{ name: "Role" }],
@@ -31,30 +36,7 @@ const handleLogout = () => {
   );
 };
 
-export default function ProfileScreen({ navigation }) {
 
- 
-
-const handleLogout = () => {
-  Alert.alert(
-    "Logout",
-    "Are you sure you want to logout?",
-    [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Logout",
-        onPress: () => {
-          navigation.getParent()?.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{ name: "Role" }],
-            })
-          );
-        },
-      },
-    ]
-  );
-};
 
   return (
     <ScrollView style={styles.container}>
@@ -65,7 +47,7 @@ const handleLogout = () => {
           <Ionicons name="person-outline" size={40} color="#2e7d32" />
         </View>
 
-        <Text style={styles.name}>John Doe</Text>
+        <Text style={styles.name}>{userName}</Text>
         <Text style={styles.member}>Eco Warrior Member</Text>
         <Text style={styles.level}>⭐ Level 5 • Since Jan 2026</Text>
 
@@ -92,19 +74,17 @@ const handleLogout = () => {
 
       <View style={styles.infoCard}>
         <Text>Email</Text>
-        <Text style={styles.infoValue}>john.doe@email.com</Text>
+        <Text style={styles.infoValue}>{user?.email || "Not provided"}</Text>
       </View>
 
       <View style={styles.infoCard}>
         <Text>Phone</Text>
-        <Text style={styles.infoValue}>+1 234 567 8900</Text>
+        <Text style={styles.infoValue}>{user?.phone || "Not provided"}</Text>
       </View>
 
       <View style={styles.infoCard}>
         <Text>Address</Text>
-        <Text style={styles.infoValue}>
-          123 Green Street, Eco City
-        </Text>
+        <Text style={styles.infoValue}>123 Green Street, Eco City</Text>
       </View>
 
       {/* Logout */}
@@ -119,7 +99,6 @@ const handleLogout = () => {
     </ScrollView>
   );
 }
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f4f6f5", padding: 15 },
 
@@ -194,4 +173,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: "#777"
   }
-});
+}
+);
