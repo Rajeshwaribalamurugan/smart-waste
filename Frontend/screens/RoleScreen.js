@@ -51,7 +51,10 @@ export default function RoleScreen({ navigation }) {
       </TouchableOpacity>
 
       {/* System Architecture Button */}
-      <TouchableOpacity style={styles.archCard}>
+      <TouchableOpacity
+  style={styles.archCard}
+  onPress={() => navigation.navigate("SystemArchitecture")}
+>
         <Ionicons name="pulse-outline" size={24} color="#fff" />
         <Text style={styles.archText}>System Architecture</Text>
         <Text style={styles.archSub}>View technical overview</Text>

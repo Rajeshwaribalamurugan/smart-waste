@@ -6,6 +6,7 @@ import UserDashboard from "../screens/UserDashboard";
 import RewardsScreen from "../screens/RewardsScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import AIGuideScreen from "../screens/AIGuideScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +29,7 @@ export default function UserTabs({ route }) {
           else if (route.name === "Rewards") iconName = "gift-outline";
           else if (route.name === "Alerts") iconName = "notifications-outline";
           else if (route.name === "Profile") iconName = "person-outline";
+          else if (route.name === "AI Guide") iconName = "camera-outline";
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -57,6 +59,13 @@ export default function UserTabs({ route }) {
         component={ProfileScreen}
         initialParams={{ user }}
       />
+
+      <Tab.Screen
+        name="AI Guide"
+        component={AIGuideScreen}
+        initialParams={{ user }}
+      />
+
     </Tab.Navigator>
   );
 }

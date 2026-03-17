@@ -1,211 +1,304 @@
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Alert
+View,
+Text,
+StyleSheet,
+ScrollView,
+TouchableOpacity,
+TextInput
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
-export default function RequestPickupScreen({ navigation }) {
-  const [selectedWaste, setSelectedWaste] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
-  const [notes, setNotes] = useState("");
+export default function RequestPickupScreen() {
 
-  const wasteTypes = [
-    { name: "Plastic", color: "#5E92E5" },
-    { name: "Organic", color: "#4CAF6F" },
-    { name: "Paper", color: "#E5984A" },
-    { name: "Glass", color: "#4DB6AC" },
-    { name: "Metal", color: "#8D949C" },
-    { name: "E-Waste", color: "#EF5350" }
-  ];
+const [wasteType,setWasteType] = useState("");
+const [timeSlot,setTimeSlot] = useState("");
+const [date,setDate] = useState(new Date());
+const [showCalendar,setShowCalendar] = useState(false);
 
-  const timeSlots = [
-    "08:00 AM - 10:00 AM",
-    "10:00 AM - 12:00 PM",
-    "12:00 PM - 02:00 PM",
-    "02:00 PM - 04:00 PM",
-    "04:00 PM - 06:00 PM"
-  ];
+const wasteTypes = ["Plastic","Organic","Paper","Glass","Metal","E-Waste"];
 
-  const handleSchedule = () => {
-    if (!selectedWaste || !selectedTime) {
-      Alert.alert("Error", "Please select waste type and time slot");
-      return;
-    }
+const colors = ["#6c9be6","#4CAF50","#e49a45","#48a9a6","#7b8794","#e65159"];
 
-    Alert.alert("Success", "Pickup Scheduled Successfully!");
-    navigation.goBack();
-  };
+const timeSlots = [
+"08:00 AM - 10:00 AM",
+"10:00 AM - 12:00 PM",
+"12:00 PM - 02:00 PM",
+"02:00 PM - 04:00 PM",
+"04:00 PM - 06:00 PM"
+];
 
-  return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Request Pickup</Text>
-      <Text style={styles.subtitle}>Schedule your waste collection</Text>
+return (
 
-      {/* Waste Type */}
-      <Text style={styles.section}>Select Waste Type *</Text>
+<ScrollView style={styles.container}>
 
-      <View style={styles.grid}>
-        {wasteTypes.map((item) => (
-          <TouchableOpacity
-            key={item.name}
-            style={[
-              styles.wasteButton,
-              {
-                backgroundColor:
-                  selectedWaste === item.name
-                    ? item.color
-                    : item.color + "88"
-              }
-            ]}
-            onPress={() => setSelectedWaste(item.name)}
-          >
-            <Text style={styles.wasteText}>{item.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+<Text style={styles.title}>Request Pickup</Text>
+<Text style={styles.subtitle}>Schedule your waste collection</Text>
 
-      {/* Address */}
-      <Text style={styles.section}>Pickup Address *</Text>
-      <View style={styles.inputBox}>
-        <Ionicons name="location-outline" size={18} color="#777" />
-        <Text style={{ marginLeft: 10 }}>
-          123 Green Street, Eco City
-        </Text>
-      </View>
+{/* Waste Type */}
+<Text style={styles.label}>Select Waste Type *</Text>
 
-      {/* Date */}
-      <Text style={styles.section}>Select Date *</Text>
-      <View style={styles.inputBox}>
-        <Ionicons name="calendar-outline" size={18} color="#777" />
-        <Text style={{ marginLeft: 10 }}>dd-mm-yyyy</Text>
-      </View>
+<View style={styles.grid}>
 
-      {/* Time Slot */}
-      <Text style={styles.section}>Select Time Slot *</Text>
+{wasteTypes.map((type,index)=>{
 
-      {timeSlots.map((slot) => (
-        <TouchableOpacity
-          key={slot}
-          style={[
-            styles.timeBox,
-            selectedTime === slot && styles.selectedTime
-          ]}
-          onPress={() => setSelectedTime(slot)}
-        >
-          <Ionicons name="time-outline" size={18} color="#777" />
-          <Text style={{ marginLeft: 10 }}>{slot}</Text>
-        </TouchableOpacity>
-      ))}
+return(
+<TouchableOpacity
+key={index}
+style={[
+styles.typeBtn,
+{backgroundColor:colors[index]},
+wasteType===type && styles.selectedType
+]}
+onPress={()=>setWasteType(type)}
+>
 
-      {/* Notes */}
-      <Text style={styles.section}>Additional Notes (Optional)</Text>
-      <TextInput
-        placeholder="E.g., Gate code, special instructions..."
-        style={styles.notes}
-        multiline
-        value={notes}
-        onChangeText={setNotes}
-      />
+<Text style={styles.typeText}>{type}</Text>
 
-      {/* Estimated Weight */}
-      <View style={styles.weightCard}>
-        <Text style={{ fontSize: 16 }}>Estimated Weight</Text>
-        <Text style={styles.weightText}>~5 kg</Text>
-        <Text style={{ fontSize: 12 }}>
-          Earn approximately 25 reward points
-        </Text>
-      </View>
+</TouchableOpacity>
+);
 
-      {/* Button */}
-      <TouchableOpacity style={styles.scheduleBtn} onPress={handleSchedule}>
-        <Text style={{ color: "#fff", fontWeight: "bold" }}>
-          Schedule Pickup
-        </Text>
-      </TouchableOpacity>
+})}
 
-      <View style={{ height: 40 }} />
-    </ScrollView>
-  );
+</View>
+
+{/* Address */}
+<Text style={styles.label}>Pickup Address *</Text>
+
+<View style={styles.inputBox}>
+<Ionicons name="location-outline" size={18} color="#777"/>
+<TextInput
+placeholder="123 Green Street, Eco City"
+style={styles.input}
+/>
+</View>
+
+<Text style={styles.location}>Use current location</Text>
+
+{/* Date */}
+<Text style={styles.label}>Select Date *</Text>
+
+<TouchableOpacity
+style={styles.inputBox}
+onPress={()=>setShowCalendar(true)}
+>
+
+<Ionicons name="calendar-outline" size={18} color="#777"/>
+
+<Text style={{marginLeft:8}}>
+{date.toDateString()}
+</Text>
+
+</TouchableOpacity>
+
+{showCalendar && (
+
+<DateTimePicker
+value={date}
+mode="date"
+display="default"
+onChange={(event,selectedDate)=>{
+
+setShowCalendar(false);
+
+if(selectedDate){
+setDate(selectedDate);
+}
+
+}}
+/>
+
+)}
+
+{/* Time */}
+<Text style={styles.label}>Select Time Slot *</Text>
+
+{timeSlots.map((slot,index)=>(
+
+<TouchableOpacity
+key={index}
+style={[
+styles.timeBtn,
+timeSlot===slot && styles.timeSelected
+]}
+onPress={()=>setTimeSlot(slot)}
+>
+
+<Ionicons name="time-outline" size={18} color="#777"/>
+
+<Text style={styles.timeText}>{slot}</Text>
+
+</TouchableOpacity>
+
+))}
+
+{/* Notes */}
+<Text style={styles.label}>Additional Notes (Optional)</Text>
+
+<TextInput
+placeholder="E.g. Gate code, special instructions..."
+style={styles.notes}
+multiline
+/>
+
+{/* Estimated */}
+<View style={styles.estimateCard}>
+
+<View>
+<Text style={styles.weight}>Estimated Weight</Text>
+<Text style={styles.kg}>~5 kg</Text>
+<Text style={styles.points}>
+Earn approximately 25 reward points
+</Text>
+</View>
+
+<Ionicons name="trash-outline" size={24} color="#2e7d32"/>
+
+</View>
+
+{/* Button */}
+<TouchableOpacity style={styles.btn}>
+<Text style={styles.btnText}>Schedule Pickup</Text>
+</TouchableOpacity>
+
+<View style={{height:60}}/>
+
+</ScrollView>
+
+);
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f4f6f5", padding: 20 },
 
-  title: { fontSize: 22, fontWeight: "bold" },
-  subtitle: { color: "#777", marginBottom: 15 },
+container:{
+flex:1,
+backgroundColor:"#f4f6f5",
+padding:15
+},
 
-  section: { marginTop: 15, marginBottom: 10, fontWeight: "bold" },
+title:{
+fontSize:22,
+fontWeight:"bold"
+},
 
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between"
-  },
+subtitle:{
+color:"#777",
+marginBottom:15
+},
 
-  wasteButton: {
-    width: "48%",
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 12
-  },
+label:{
+fontWeight:"600",
+marginTop:10,
+marginBottom:5
+},
 
-  wasteText: { color: "#fff", fontWeight: "bold" },
+grid:{
+flexDirection:"row",
+flexWrap:"wrap",
+justifyContent:"space-between"
+},
 
-  inputBox: {
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10
-  },
+typeBtn:{
+width:"48%",
+padding:12,
+borderRadius:10,
+marginBottom:10,
+alignItems:"center"
+},
 
-  timeBox: {
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10
-  },
+selectedType:{
+borderWidth:2,
+borderColor:"#2e7d32"
+},
 
-  selectedTime: {
-    borderWidth: 2,
-    borderColor: "#2e7d32"
-  },
+typeText:{
+color:"#fff",
+fontWeight:"bold"
+},
 
-  notes: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 15,
-    height: 80,
-    textAlignVertical: "top"
-  },
+inputBox:{
+flexDirection:"row",
+alignItems:"center",
+borderWidth:1,
+borderColor:"#ddd",
+borderRadius:10,
+padding:10
+},
 
-  weightCard: {
-    backgroundColor: "#c8e6c9",
-    padding: 20,
-    borderRadius: 15,
-    marginTop: 20
-  },
+input:{
+marginLeft:8,
+flex:1
+},
 
-  weightText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginVertical: 5
-  },
+location:{
+color:"#2e7d32",
+fontSize:12,
+marginTop:5
+},
 
-  scheduleBtn: {
-    backgroundColor: "#2e7d32",
-    padding: 18,
-    borderRadius: 15,
-    alignItems: "center",
-    marginTop: 20
-  }
+timeBtn:{
+flexDirection:"row",
+alignItems:"center",
+borderWidth:1,
+borderColor:"#ddd",
+borderRadius:10,
+padding:12,
+marginBottom:8
+},
+
+timeSelected:{
+borderColor:"#2e7d32",
+backgroundColor:"#ecf8ee"
+},
+
+timeText:{
+marginLeft:8
+},
+
+notes:{
+borderWidth:1,
+borderColor:"#ddd",
+borderRadius:10,
+padding:10,
+height:70,
+textAlignVertical:"top"
+},
+
+estimateCard:{
+flexDirection:"row",
+justifyContent:"space-between",
+backgroundColor:"#cfe8d2",
+padding:15,
+borderRadius:10,
+marginTop:10
+},
+
+weight:{
+fontSize:12
+},
+
+kg:{
+fontWeight:"bold",
+fontSize:18
+},
+
+points:{
+fontSize:11,
+color:"#2e7d32"
+},
+
+btn:{
+backgroundColor:"#7dbb7f",
+padding:15,
+borderRadius:10,
+alignItems:"center",
+marginTop:10
+},
+
+btnText:{
+color:"#fff",
+fontWeight:"bold"
+}
+
 });

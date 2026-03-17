@@ -22,7 +22,7 @@ import RequestPickupScreen from "../screens/RequestPickupScreen";
 import TrackPickupScreen from "../screens/TrackPickupScreen";
 import RewardsScreen from "../screens/RewardsScreen";
 import AdminDashboardScreen from "../screens/AdminDashboardScreen";
-
+import SystemArchitectureScreen from "../screens/SystemArchitectureScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,7 +49,8 @@ export default function AppNavigator() {
         <Stack.Screen name="Analytics" component={AdminAnalytics} />
         <Stack.Screen name="DriverRoute" component={DriverRouteScreen} />
         <Stack.Screen name="AdminTabs" component={AdminTabs} options={{ headerShown: false }} />
-
+        <Stack.Screen name="SystemArchitecture" component={SystemArchitectureScreen} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

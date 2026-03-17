@@ -68,7 +68,7 @@ export default function UserDashboard({ navigation,route }) {
           {/* Request Pickup */}
           <TouchableOpacity
             style={styles.primaryCard}
-            onPress={openRequestPickup}
+            onPress={() => navigation.navigate("RequestPickup")}
           >
             <Ionicons name="trash-outline" size={24} color="#fff" />
             <Text style={styles.primaryText}>Request Pickup</Text>
